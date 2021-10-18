@@ -1,5 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const thing = require('./models/things');
+const saucesRouter = require('./routes/sauces');
+
+mongoose.connect('mongodb+srv://mathieu42470:<Mat08tar031966>@cluster0.zyes8.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+  { useNewUrlParser: true,
+    useUnifiedTopology: true })
+  .then(() => console.log('Connexion à MongoDB réussie !'))
+  .catch(() => console.log('Connexion à MongoDB échouée !'));
 
 const app = express();
 app.use((req, res, next) =>{
@@ -9,7 +18,8 @@ app.use((req, res, next) =>{
                next();
 });
 app.use(bodyParser.json());
+app.use('/api/sauces', saucesRouter);
 
-app.post('/api/auth/signup', (req, res, next) =>{})
+
 
 module.exports = app;
