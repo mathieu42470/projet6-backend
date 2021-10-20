@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const thing = require('./models/things');
 const path = require('path');
+var cors = require('cors');
 
 const saucesRoutes = require('./routes/sauces');
 const userRoutes = require('./routes/user');
@@ -14,20 +15,24 @@ mongoose.connect('mongodb+srv://mathieu42470:Mat25tar1191@cluster0.zyes8.mongodb
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
 const app = express();
-app.use((req, res, next) =>{
-               res.setHeader('Access-Control-Allow-Origin', '*');
-               res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
-               res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-               next();
-});
+const corsOption ={
+  origin: '*',
+};
+app.use(cors(corsOption));
+// app.use((req, res, next) =>{
+//                res.setHeader('Access-Control-Allow-Origin', '*');
+//                res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
+//                res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+//                next();
+// });
 app.use(bodyParser.json());
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use('/api/sauces', saucesRoutes);
 
-app.use('/api/auth/signup');
-app.use('/api/auth/login');
+app.use('/api/auth', userRoutes);
+
 
 
 

@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const userCtrl = require('../controllers/user');
-const mongoose = require('mongooose');
 
-router.post('/signup', userCtrl.signup);
+router.use('/signup', userCtrl.signup);
 router.post('/login', userCtrl.login);
 
 module.exports = router;
