@@ -8,10 +8,10 @@ const thingSchema = mongoose.Schema({
                mainPepper: {type: String, require: true},
                imageUrl: {type: String, require: true},
                heat: {type: Number, require: true},
-               likes: {type: Number, require: true},
-               dislikes: {type: Number, require: true},
-               usersLikes: {type: String, require: true},
-               usersDislikes:{type: String, require: true},
+               // likes: {type: Number, require: true},
+               // dislikes: {type: Number, require: true},
+               // usersLikes: {type: String, require: true},
+               // usersDislikes:{type: String, require: true},
 });
 
-module.exports = mongoose.model('thing', thingSchema);
+module.exports = mongoose.model('Thing', thingSchema);
