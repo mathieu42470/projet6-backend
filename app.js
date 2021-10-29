@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const thing = require('./models/things');
 const path = require('path');
 var cors = require('cors');
 
@@ -15,6 +14,7 @@ mongoose.connect('mongodb+srv://mathieu42470:Mat25tar1191@cluster0.zyes8.mongodb
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
 const app = express();
+app.use(bodyParser.json());
 const corsOption ={
   origin: '*',
 };
@@ -25,15 +25,11 @@ app.use(cors(corsOption));
 //                res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
 //                next();
 // });
-app.use(bodyParser.json());
+
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use('/api/sauces', saucesRoutes);
 
 app.use('/api/auth', userRoutes);
-
-
-
-
 module.exports = app;
