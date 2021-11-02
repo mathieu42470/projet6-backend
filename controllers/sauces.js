@@ -1,4 +1,6 @@
 const Sauce = require('../models/sauce');
+const fs =require('fs');
+
 
 exports.createSauce = (req, res, next) => {  
   const sauceObjet = JSON.parse(req.body.sauce);
@@ -7,42 +9,38 @@ exports.createSauce = (req, res, next) => {
         ...sauceObjet,
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
       });
-      sauce.save()
+      sauces.save()
      .then(() => {               
          res.status(200).json({message:'objet enregistré !'});
         })
      .catch(error =>  res.status(400).json({ error }));
-    next();
  };
  exports.getAllSauce = (req, res, next) =>{
          Sauce.find()
                .then(Sauces => res.status(200).json(Sauces))
                .catch(error => res.status(400).json({ error }));
-               next();
  };
  exports.getOneSauce = (req, res, next) =>{
-         Sauce.findOne({userId: req.params.id})
+         Sauce.findOne({ _id : req.params.id})
                .then(Sauce => res.status(200).json(Sauce))
                .catch(error => res.status(400).json({ error }));
-               next();
  };
  exports.modifySauce = (req, res, next) =>{
-   const saucesObjet =req.file?
+   const saucesObjet = req.file?
    {
-     ...JSON.parse(req.body.sauces),
-     imageUrl:`${req.protocol}://${req.get('host')}/images/${req.body.file.filename}`
-   }: { ...req.body};
-            Sauce.updapteOne({userId: req.params.id}, {...req.body, _id: req.params.id})
+     ...JSON.parse(req.body.Sauce),
+     imageUrl:`${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+   } : { ...req.body };
+   Sauce.updateOne({ _id: req.params.id}, { ...req.body, _id: req.params.id})
                .then(() => res.status(200).json({message:'objet modifié'}))
                .catch(error => res.status(400).json({ error }));
-               next();
    };
-   exports.deleteSauce =(req, res, next) =>{
-    Sauce.findOne({_id: req.params.id})
-     .then(sauce =>{
-       const filename = thing.imageUrl.split('/images/')[1];
-       fs.unlick('images/${filename}', () =>{
-        sauce.deleteOne({_id: req.params.id})
+   exports.deleteSauce = (req, res, next) =>{
+    Sauce.findOne({ _id: req.params.id})
+     .then(Sauce => {      
+       const filename = Sauce.imageUrl.split('/images/')[1];
+       fs.unlink(`images/${filename}`, () => {
+        Sauce.deleteOne({ _id: req.params.id })
            .then(() => res.status(200).json({message:'objet supprimé'}))
            .catch(error => res.status(400).json({ error }));
        })

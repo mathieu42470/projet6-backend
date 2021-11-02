@@ -16,7 +16,6 @@ bcrypt.hash(req.body.password, 10)
                .catch(error => res.status(400).JSON({ error}));
 })
 .catch(error => res.status(500).json({ error}));
-      next();
 };
 
 exports.login = (req, res, next) =>{
@@ -41,8 +40,6 @@ exports.login = (req, res, next) =>{
                               });
                               })
                               .catch(error => res.status(500).json({ error}));
-                              next();
                })
                .catch(error => res.status(500).JSON({ error}));
-               next();
 };
