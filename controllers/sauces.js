@@ -13,7 +13,7 @@ exports.createSauce = (req, res, next) => {
      .then(() => {               
          res.status(200).json({message:'objet enregistré !'});
         })
-     .catch(error =>  res.status(400).json({ error }));
+     .catch(error => res.status(400).json({ error }));
  };
  exports.getAllSauce = (req, res, next) =>{
          Sauce.find()
@@ -47,3 +47,17 @@ exports.createSauce = (req, res, next) => {
      })
      .catch(error => res.status(500).json({ error }));
    };
+
+   exports.likeDislikeSauce = (req, res, next) =>{
+     const like = req.body.like;  
+     const dislikes = req.body.dislikes;
+     if(like === true){
+       return 1
+     }
+     if(dislikes === true){
+       return -1
+     }
+     else{
+       return 0
+     }
+   }
