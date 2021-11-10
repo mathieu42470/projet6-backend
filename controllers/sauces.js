@@ -48,16 +48,32 @@ exports.createSauce = (req, res, next) => {
      .catch(error => res.status(500).json({ error }));
    };
 
-   exports.likeDislikeSauce = (req, res, next) =>{
-     const like = req.body.like;  
-     const dislikes = req.body.dislikes;
-     if(like === true){
-       return 1
-     }
-     if(dislikes === true){
-       return -1
-     }
-     else{
-       return 0
-     }
-   }
+   exports.likeSauce = (req, res, next) =>{
+    const likes = req.body.like;
+    const userId = req.body.userId;
+    const sauceId = req.params.id;
+    console.log(req.body);
+    Sauce.findOne({ _id: req.params.id})  
+     .then(likes =>{
+      usersLiked.push({userId: req.body.userId});
+          Sauce.save()
+             .then(() => res.status(200).json({message:'1'}))
+             .catch(error => res.status(400).json({ error }));
+    }) 
+    .catch(error => res.status(400).json({ error }));      
+  };
+exports.dislikesSauce = (req, res, next) =>{
+  const dislikes = req.body.dislikes;
+    const userId = req.body.userId;
+    const sauceId = req.params.id;
+    Sauce.findOne({ _id: req.params.id})
+    .then(dislikes =>{ 
+            usersDisliked.push({userId: req.body.userId});
+            Sauce.save()
+            .then(() => res.status(200).json({message:'-1'}))
+            .catch(error => res.status(400).json({ error }));
+     })
+     .catch(error => res.status(400).json({ error }));
+}
+    
+   
