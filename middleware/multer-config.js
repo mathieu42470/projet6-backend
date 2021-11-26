@@ -1,5 +1,5 @@
 const multer = require('multer');
-
+// récupération des images envoyés par l'utilisateur //
 const MIME_TYPES ={
                'image/jpg': 'jpg',
                'image/jpeg': 'jpeg',
